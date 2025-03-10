@@ -305,3 +305,34 @@ function playerWithLongestName() {
   return longestName;
 }
 console.log(playerWithLongestName());
+
+function doesLongNameStealATon() {
+  const game = gameObject();
+
+  let maxNameLength = 0;
+  for (const team of [game.home, game.away]) {
+    for (const playerName of Object.keys(team.players)) {
+      maxNameLength = Math.max(maxNameLength, playerName.length);
+    }
+  }
+
+  const longestNamePlayers = [];
+  for (const team of [game.home, game.away]) {
+    for (const [playerName, stats] of Object.entries(team.players)) {
+      if (playerName.length === maxNameLength) {
+        longestNamePlayers.push(stats);
+      }
+    }
+  }
+
+  let maxSteals = 0;
+  for (const team of [game.home, game.away]) {
+    for (const player of Object.values(team.players)) {
+      maxSteals = Math.max(maxSteals, player.steals);
+    }
+  }
+
+  return longestNamePlayers.some((player) => player.steals === maxSteals);
+}
+
+console.log(doesLongNameStealATon());
